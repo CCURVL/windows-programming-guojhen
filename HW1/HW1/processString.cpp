@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include <string>
 #include <vector>
-
+#include <sstream> 
 #include <gtest\gtest.h>
 
 using namespace std;
@@ -16,11 +16,46 @@ using namespace std;
 //       -1 if exception occur (ex. string containing non-digit character)
 int getAscendingStr(string& inputStr)
 {
-	
-	/// Please fill your code here
-
-
+	stringstream ss(inputStr);
+	string token, convert_str;
+	int size, convert_int, flag = 0;
+	vector<string> ans;
+	vector<int> int_ans;
+	while (getline(ss, token, ' ')) {
+		ans.push_back(token);
+	}
+	size = ans.size();
+	ss.str("");
+	ss.clear();
+	for (int i = 0; (i<size); i++) {
+		ss.str("");
+		ss.clear();
+		ss << ans[i];
+		ss >> convert_int;
+		if (!ss)return -1;
+		int_ans.push_back(convert_int);
+	}
+	sort(int_ans.begin(), int_ans.end());
+	ans.clear();
+	for (int i = 0; i<size; i++) {
+		ss.str("");
+		ss.clear();
+		ss << int_ans[i];
+		ss >> convert_str;
+		ans.push_back(convert_str);
+	}
+	inputStr = "";
+	for (int i = 0; i<size; i++) {
+		if (i != size - 1) {
+			inputStr += ans[i];
+			inputStr += " ";
+		}
+		else {
+			inputStr += ans[i];
+		}
+	}
 	return 0;
+	//finish
 }
 
 // solveQ Function requirement
@@ -36,8 +71,24 @@ int getAscendingStr(string& inputStr)
 //          (return vector size should be 0)
 int solveQ(vector<double> &x, double a, double b, double c)
 {
+	double check, other;
+	check = b*b - 4 * a*c;
+	if (check<0)return -1;
+	else if (check == 0) {
+		check = ((-b) + sqrt(b*b - 4 * a*c)) / (2 * a);
+		x.push_back(check);
+		return 0;
+	}
+	else {
+		check = ((-b) + sqrt(b*b - 4 * a*c)) / (2 * a);
+		x.push_back(check);
+		other = ((-b) - sqrt(b*b - 4 * a*c)) / (2 * a);
+		x.push_back(other);
+		return 1;
+	}
 
 	return 0;
+	//finish
 }
 
 int main(int argc, char*argv[]) {
