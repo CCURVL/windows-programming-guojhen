@@ -16,25 +16,24 @@ using namespace std;
 //       -1 if exception occur (ex. string containing non-digit character)
 int getAscendingStr(string& inputStr)
 {
-	stringstream ss(inputStr);
-	string token, convert_str;
-	int size, convert_int, flag = 0;
+	stringstream ss(inputStr),sstoken;
+	string token,convert_str;
+	int size, convert_int;
 	vector<string> ans;
 	vector<int> int_ans;
 	while (getline(ss, token, ' ')) {
-		ans.push_back(token);
+		ans.push_back(token);				//這次將在取token時就把邊取邊判斷是不是合法的字串給處理好，也順便直接
+		sstoken << token;					//將之前轉換整數後再放回矩陣裡面的for迴圈功能整合到這邊的while迴圈中。
+		sstoken >> convert_int;
+		if (!sstoken)return -1;
+
+		int_ans.push_back(convert_int);
+		sstoken.str("");
+		sstoken.clear();
 	}
 	size = ans.size();
 	ss.str("");
 	ss.clear();
-	for (int i = 0; (i<size); i++) {
-		ss.str("");
-		ss.clear();
-		ss << ans[i];
-		ss >> convert_int;
-		if (!ss)return -1;
-		int_ans.push_back(convert_int);
-	}
 	sort(int_ans.begin(), int_ans.end());
 	ans.clear();
 	for (int i = 0; i<size; i++) {
